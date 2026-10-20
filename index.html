@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Standard — Plan de build</title>
+<style>
+:root{--bg:#faf7f2;--ink:#1b2a41;--mute:#5c6675;--accent:#c2492d;--line:#ddd5c8;--card:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141a24;--ink:#eee8dd;--mute:#a3acb9;--accent:#e8785c;--line:#2d3646;--card:#1b2331;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#141a24;--ink:#eee8dd;--mute:#a3acb9;--accent:#e8785c;--line:#2d3646;--card:#1b2331;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Georgia,"Times New Roman",serif}
+main{max-width:720px;margin:0 auto;padding:24px 18px 64px}
+h1{font-size:2rem;line-height:1.15;margin:.2em 0 .3em}
+h2{font-size:1.3rem;margin:2em 0 .6em;border-bottom:2px solid var(--accent);padding-bottom:.2em}
+h3{font-size:1.08rem;margin:0 0 .3em}
+.k{font:600 .75rem/1 system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+p{margin:.5em 0}
+.mute{color:var(--mute)}
+.step{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--ink);border-radius:6px;padding:14px 16px;margin:14px 0}
+.step.w1{border-left-color:var(--accent)}
+.meta{font:.85rem/1.4 system-ui,sans-serif;color:var(--mute);margin:.2em 0 .6em}
+ul{padding-left:1.2em;margin:.4em 0}
+li{margin:.25em 0}
+.test{font:.92rem/1.45 system-ui,sans-serif;background:var(--bg);border-radius:4px;padding:8px 10px;margin-top:.6em}
+.wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font:.92rem/1.4 system-ui,sans-serif;min-width:420px}
+th,td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:left;vertical-align:top}
+th{color:var(--mute);font-weight:600}
+.dec{border:2px solid var(--accent);border-radius:6px;padding:12px 16px;margin:12px 0;background:var(--card)}
+</style>
+</head>
+<body>
+<main>
+<p class="k">Standard · Plan de build</p>
+<h1>Du site en ligne à la première vente, en deux semaines.</h1>
+<p class="mute">Chaque étape produit quelque chose que tu peux voir tourner. Chaque session de travail se termine sur un site qui fonctionne, jamais sur du code à moitié fini.</p>
+
+<h2>Un arbitrage à connaître avant de commencer</h2>
+<p>Tu m’as donné deux consignes qui se heurtent : « première vente cette semaine, une page, un bouton payer » d’un côté, un tunnel complet de six écrans avec paywall détaillé de l’autre. Avec moins de 5 h par semaine, on ne fait pas les deux en même temps. Je tranche ainsi :</p>
+<ul>
+<li><strong>Semaine 1 : le strict minimum qui encaisse.</strong> Une page d’accueil, un bouton payer, un accès ouvert après paiement. Tu vends à la main à tes premiers clients, en créant leur base avec eux.</li>
+<li><strong>Semaine 2 : le produit et le tunnel complet.</strong> Réponse en un clic, détection des nouvelles questions, statistiques, trois questions, résultat personnalisé, avant-goût et paywall.</li>
+</ul>
+
+<h2>Semaine 1 — Encaisser</h2>
+
+<div class="step w1">
+<p class="k">Étape 0 · environ 45 min</p>
+<h3>Ouvrir les quatre comptes gratuits</h3>
+<p class="meta">GitHub · Vercel · Supabase · Stripe (mode test)</p>
+<ul><li>Je te guide un compte à la fois, avec les captures d’écran décrites en mots.</li><li>Aucun service payant à ce stade. Le seul coût possible plus tard : un nom de domaine, environ 10 € par an.</li></ul>
+<div class="test"><strong>Test en 30 secondes :</strong> tu te connectes aux quatre tableaux de bord sans erreur.</div>
+</div>
+
+<div class="step w1">
+<p class="k">Étape 1 · environ 1 h 30</p>
+<h3>Site en ligne : page d’accueil, pages légales, page 404</h3>
+<p class="meta">Premier déploiement sur Vercel, dès aujourd’hui</p>
+<ul>
+<li>Une page d’accueil pensée pour le téléphone : promesse en une phrase, douleur chiffrée, trois bénéfices, un seul bouton « Commencer ».</li>
+<li>Aperçu de lien propre (Open Graph) pour TikTok, Instagram et WhatsApp.</li>
+<li>Mentions légales, CGV et politique de confidentialité rédigées, avec les champs à compléter clairement marqués (raison sociale, SIRET, adresse).</li>
+<li>Page 404 et page d’erreur qui ramènent à l’accueil.</li>
+</ul>
+<div class="test"><strong>Test en 30 secondes :</strong> tu ouvres l’adresse Vercel sur ton téléphone et tu colles le lien dans WhatsApp : l’aperçu s’affiche.</div>
+</div>
+
+<div class="step w1">
+<p class="k">Étape 2 · environ 1 h 30</p>
+<h3>Le bouton payer, en mode test puis en réel</h3>
+<p class="meta">Stripe Checkout + webhook vérifié côté serveur</p>
+<ul>
+<li>Bouton d’abonnement à 35 €/mois, page de paiement Stripe, page de remerciement, message clair si le paiement échoue.</li>
+<li>Le webhook confirme chaque paiement côté serveur. L’accès n’est jamais accordé sur la seule redirection.</li>
+<li>Paiement de test de bout en bout avec une carte fictive, puis bascule en production.</li>
+</ul>
+<div class="test"><strong>Test en 30 secondes :</strong> tu paies avec la carte de test 4242 4242 4242 4242 et le paiement apparaît dans Stripe et dans la base.</div>
+</div>
+
+<div class="step w1">
+<p class="k">Étape 3 · environ 1 h 30</p>
+<h3>Accès après paiement et vente à la main</h3>
+<p class="meta">Supabase : connexion par lien magique, abonnement relié au client</p>
+<ul>
+<li>Le client reçoit un lien de connexion par e-mail, sans mot de passe à retenir.</li>
+<li>Une page « Ma base » minimale s’ouvre juste après le paiement, avec un état vide qui explique quoi faire.</li>
+<li>Un moyen pour toi de créer un compte et de pré-remplir sa base à la main.</li>
+</ul>
+<div class="test"><strong>Test en 30 secondes :</strong> tu paies en test, tu cliques le lien reçu et tu arrives sur ta base vide, connectée.</div>
+</div>
+
+<p><strong>Si le temps manque :</strong> les étapes 0 à 2 suffisent pour encaisser. L’étape 3 peut glisser de quelques jours, et tu livres alors le premier client à la main.</p>
+
+<h2>Semaine 2 — Le produit et le tunnel</h2>
+
+<div class="step">
+<p class="k">Étape 4 · environ 1 h 30</p>
+<h3>La base de questions fréquentes, remplie en dix minutes</h3>
+<ul><li>Ajout rapide : une question, une réponse, des mots-clés.</li><li>Une base de départ prête à importer, avec les questions typiques du métier, pour que personne ne parte d’une page blanche.</li></ul>
+<div class="test"><strong>Test :</strong> tu remplis dix questions en moins de dix minutes depuis ton téléphone.</div>
+</div>
+
+<div class="step">
+<p class="k">Étape 5 · environ 2 h</p>
+<h3>Réponse proposée en un clic, modifiable avant envoi</h3>
+<ul><li>Le client colle le message reçu, le produit propose la meilleure réponse de sa base, il la modifie, puis la copie.</li><li>Chaque réponse utilisée est comptée, ce qui alimente les statistiques.</li></ul>
+<div class="test"><strong>Test :</strong> tu colles une vraie question et la bonne réponse apparaît en un clic.</div>
+</div>
+
+<div class="step">
+<p class="k">Étape 6 · environ 1 h 30</p>
+<h3>Détection des questions nouvelles</h3>
+<ul><li>Quand aucune réponse ne correspond, la question est mise de côté et proposée à l’ajout dans la base.</li></ul>
+<div class="test"><strong>Test :</strong> une question inconnue arrive dans la liste « À ajouter ».</div>
+</div>
+
+<div class="step">
+<p class="k">Étape 7 · environ 1 h</p>
+<h3>Statistiques : temps gagné, questions les plus fréquentes</h3>
+<ul><li>Temps gagné estimé en heures par mois, classement des dix questions les plus posées.</li></ul>
+<div class="test"><strong>Test :</strong> après quelques réponses, les chiffres s’affichent sur l’accueil du compte.</div>
+</div>
+
+<div class="step">
+<p class="k">Étape 8 · environ 3 h (sur deux sessions)</p>
+<h3>Le tunnel complet et le paywall</h3>
+<ul>
+<li>Trois questions, un écran chacune, barre de progression.</li>
+<li>Résultat personnalisé qui chiffre ce que la situation coûte aujourd’hui.</li>
+<li>Avant-goût gratuit utilisable, suite verrouillée mais visible.</li>
+<li>Paywall dans l’ordre voulu : rappel, gain chiffré, formules avec prix par jour, garantie en clair, « sans engagement » à côté du bouton, paiement sur le même écran, quatre questions fréquentes. Aucun faux avis, aucun faux compte à rebours.</li>
+</ul>
+<div class="test"><strong>Test :</strong> parcours complet sur téléphone, de l’accueil au paiement de test, en moins de deux minutes.</div>
+</div>
+
+<div class="step">
+<p class="k">Étape 9 · environ 1 h</p>
+<h3>Mesure d’audience et finitions</h3>
+<ul><li>Mesure d’audience respectueuse de la vie privée (sans bandeau de cookies), contrôle de vitesse sur 4G, relecture du français.</li></ul>
+<div class="test"><strong>Test :</strong> tu vois le nombre de visiteurs du jour, et la page s’affiche en moins de 2 secondes.</div>
+</div>
+
+<div class="step">
+<p class="k">Étape 10</p>
+<h3>Plan de lancement sur 14 jours</h3>
+<ul><li>Jour par jour : quoi publier, où trouver tes dix premiers clients, quoi leur écrire, quand relancer. Sans vidéo de toi, sans appel.</li></ul>
+</div>
+
+<h2>Ton prix : 35 €, est-ce le bon ?</h2>
+<div class="wrap"><table>
+<tr><th>Prix</th><th>Clients pour 1 000 €</th><th>Clients pour 3 136 €</th></tr>
+<tr><td>35 €</td><td>29</td><td>90</td></tr>
+<tr><td>49 €</td><td>21</td><td>64</td></tr>
+<tr><td>59 €</td><td>17</td><td>54</td></tr>
+</table></div>
+<p>Si un professionnel gagne seulement une demi-heure par jour, cela représente une dizaine d’heures par mois : 35 € est un prix très bas pour cette valeur. Il rassure pour les premières ventes, mais il t’oblige à trouver 90 clients, ce qui est lourd avec moins de 5 h par semaine, sans vidéo ni appel.</p>
+<p><strong>Ce que je ferais :</strong> garder 35 € pour tes dix premiers clients, afin d’apprendre vite, puis passer à 49 € pour les suivants. Pour le paywall, j’ajouterais une formule annuelle (deux mois offerts) qui t’apporte de la trésorerie dès la vente. À 49 €, 64 clients suffisent pour ton objectif.</p>
+
+<h2>Trois décisions qui engagent le produit</h2>
+<div class="dec"><p><strong>1. Stripe ou Whop :</strong> Stripe. Standard est un logiciel avec un compte et des données, pas un accès à une communauté. Whop n’apporterait rien ici.</p></div>
+<div class="dec"><p><strong>2. Comment la bonne réponse est trouvée (étape 5) :</strong> par recherche de mots-clés dans la base du client (gratuit, instantané, prévisible), ou par intelligence artificielle (plus souple mais payante à chaque réponse). Je recommande les mots-clés pour le MVP : zéro coût variable, et l’IA pourra s’ajouter ensuite.</p></div>
+<div class="dec"><p><strong>3. Qui est ta cible précise :</strong> « Immobilier » est large (agents, syndics, gestionnaires locatifs, marchands de biens). La base de départ et le texte de la page d’accueil dépendent de ce choix. Plus il est précis, plus ta vidéo et ta page parlent à quelqu’un.</p></div>
+
+<h2>Hors périmètre, volontairement</h2>
+<p class="mute">Connexion directe à WhatsApp, e-mail ou SMS, application mobile, équipes et plusieurs utilisateurs, réponses par intelligence artificielle, factures personnalisées. Si l’une de ces idées te paraît indispensable, tu me la signales et on décide ensemble.</p>
+
+<p class="mute" style="margin-top:2.5em">Le client copie la réponse et l’envoie lui-même depuis son application habituelle : c’est ce qui garde le MVP faisable en deux semaines.</p>
+</main>
+</body>
+</html>
